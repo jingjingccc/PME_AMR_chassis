@@ -70,13 +70,13 @@
 #define M1_Encoder_timerchannel TIM_CHANNEL_1 | TIM_CHANNEL_2
 #define M1_Encoder_dir 1
 #define M1_PWM_timer htim12
-#define M1_PWM_timerchannel TIM_CHANNEL_2
+#define M1_PWM_timerchannel TIM_CHANNEL_1
 
 #define M2_Encoder_timer htim5
 #define M2_Encoder_timerchannel TIM_CHANNEL_1 | TIM_CHANNEL_2
-#define M2_Encoder_dir 1
+#define M2_Encoder_dir -1
 #define M2_PWM_timer htim12
-#define M2_PWM_timerchannel TIM_CHANNEL_1
+#define M2_PWM_timerchannel TIM_CHANNEL_2
 
 #define M3_Encoder_timer htim3
 #define M3_Encoder_timerchannel TIM_CHANNEL_1 | TIM_CHANNEL_2
@@ -86,7 +86,7 @@
 
 #define M4_Encoder_timer htim4
 #define M4_Encoder_timerchannel TIM_CHANNEL_1 | TIM_CHANNEL_2
-#define M4_Encoder_dir 1
+#define M4_Encoder_dir -1
 #define M4_PWM_timer htim15
 #define M4_PWM_timerchannel TIM_CHANNEL_2
 
@@ -119,16 +119,16 @@ extern double angularvelocity;
 #define M1_KI 0.0
 #define M1_KD 0.0
 
-#define M2_KP 1.0
-#define M2_KI 0.0
+#define M2_KP 0.215451943
+#define M2_KI 9.156965324
 #define M2_KD 0.0
 
 #define M3_KP 1.0
 #define M3_KI 0.0
 #define M3_KD 0.0
 
-#define M4_KP 1.0
-#define M4_KI 0.0
+#define M4_KP 0.438787
+#define M4_KI 9.904899
 #define M4_KD 0.0
 #endif
 

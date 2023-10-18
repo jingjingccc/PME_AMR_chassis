@@ -231,7 +231,7 @@ void PID_Controller(PID_Control *Wheel_)
 	Wheel_->rps = (double)Wheel_->CountNum / ((double)4 * encoder_resolution * speed_reduction_ratio * control_period);
 	__HAL_TIM_SetCounter(&Wheel_->encoder_timer ,0);
 
-//		if (i<500)
+//		if (i<600)
 //		{
 //			sssss[i] = Wheel_->rps;
 //			i++;
