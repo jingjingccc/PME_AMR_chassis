@@ -571,10 +571,10 @@ void Control_Init()
  80007d4:	f008 feb6 	bl	8009544 <HAL_RCC_GetPCLK1Freq>
  80007d8:	4603      	mov	r3, r0
  80007da:	607b      	str	r3, [r7, #4]
-//	if((RCC->CFGR & RCC_D2CFGR_D2PPRE1) != 0)
-//	{
-//		PCLK1_freq *=2;
-//	}
+	/*if((RCC->CFGR & RCC_D2CFGR_D2PPRE1) != 0)
+	{
+		PCLK1_freq *=2;
+	}*/
 
 	int32_t timer_interrupt_freq = (double)PCLK1_freq / (Encoder_Interrupt_timer.Init.Prescaler + 1) / (Encoder_Interrupt_timer.Init.Period + 1);
  80007dc:	687b      	ldr	r3, [r7, #4]
