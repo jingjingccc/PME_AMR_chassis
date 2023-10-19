@@ -96,8 +96,8 @@
 extern double control_period;
 
 /* Hardware Info */
-#define encoder_resolution 13
-#define speed_reduction_ratio 74.8
+#define encoder_resolution 512
+#define speed_reduction_ratio 12
 
 #define wheel_radius 0.05075
 #define chassis_radius 0.3

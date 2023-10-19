@@ -82,16 +82,14 @@ void Control_Init()
 
 	// PCLK1_freq, APB1 timer frequency
 	int32_t PCLK1_freq = HAL_RCC_GetPCLK1Freq();
-//	if((RCC->CFGR & RCC_CFGR_PPRE1) != 0)
-//	{
-//		PCLK1_freq *=2;
-//	}
-	if((RCC->CFGR & RCC_D2CFGR_D2PPRE1) != 0)
+
+	/******************* This part is not sure.********************/
+	/*if((RCC->CFGR & RCC_D2CFGR_D2PPRE1) != 0)
 	{
 		PCLK1_freq *=2;
-	}
+	}*/
 
-	int32_t timer_interrupt_freq = (double)PCLK1_freq / (Encoder_Interrupt_timer.Init.Prescaler + 1) / Encoder_Interrupt_timer.Init.Period;
+	int32_t timer_interrupt_freq = (double)PCLK1_freq / (Encoder_Interrupt_timer.Init.Prescaler + 1) / (Encoder_Interrupt_timer.Init.Period + 1);
 	control_period = (double)(1 / (double)timer_interrupt_freq);
 
 	WheelA.integral = 0.0;
@@ -231,11 +229,11 @@ void PID_Controller(PID_Control *Wheel_)
 	Wheel_->rps = (double)Wheel_->CountNum / ((double)4 * encoder_resolution * speed_reduction_ratio * control_period);
 	__HAL_TIM_SetCounter(&Wheel_->encoder_timer ,0);
 
-//		if (i<600)
-//		{
-//			sssss[i] = Wheel_->rps;
-//			i++;
-//		}
+	if (i<600)
+	{
+		sssss[i] = Wheel_->rps;
+		i++;
+	}
 
 	Wheel_->err = Wheel_->goal - Wheel_->rps;
 	Wheel_->propotional = (double)Wheel_->err * Wheel_->Kp;
@@ -249,7 +247,7 @@ void PID_Controller(PID_Control *Wheel_)
 	Wheel_->duty = (Wheel_->duty > 1)? 1 : Wheel_->duty;
 	Wheel_->duty = (Wheel_->duty < -1)? -1 : Wheel_->duty;
 
-//	Wheel_->duty = 1.0;
+	Wheel_->duty = 1.0;
 
 #ifdef VNH5019
 	if(Wheel_->duty >= 0)

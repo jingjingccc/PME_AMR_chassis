@@ -99,7 +99,7 @@ int main(void)
   MX_TIM23_Init();
   /* USER CODE BEGIN 2 */
 
-	HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_1 | TIM_CHANNEL_2);
+//	HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_1 | TIM_CHANNEL_2);
   HAL_TIM_Base_Start_IT(&Encoder_Interrupt_timer);
   Control_Init();
   Rosserial_Init();
@@ -112,7 +112,7 @@ int main(void)
   {
 //  	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_3, GPIO_PIN_SET);
 //  	__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_1, 3000);
-  	a = __HAL_TIM_GetCounter(&htim2);
+//  	a = __HAL_TIM_GetCounter(&htim2);
 
     /* USER CODE END WHILE */
 
@@ -198,10 +198,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //			angularvelocity = 0.0;
 //		}
 //		Forward_Kinematics(linearvelocity_x, linearvelocity_y, angularvelocity);
-//		PID_Controller(&WheelA);
+		PID_Controller(&WheelA);
 //		PID_Controller(&WheelB);
 //		PID_Controller(&WheelC);
-		PID_Controller(&WheelD);
+//		PID_Controller(&WheelD);
 	}
 }
 
