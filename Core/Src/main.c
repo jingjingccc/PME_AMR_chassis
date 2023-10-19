@@ -199,9 +199,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //		}
 //		Forward_Kinematics(linearvelocity_x, linearvelocity_y, angularvelocity);
 		PID_Controller(&WheelA);
-//		PID_Controller(&WheelB);
-//		PID_Controller(&WheelC);
-//		PID_Controller(&WheelD);
+		PID_Controller(&WheelB);
+		PID_Controller(&WheelC);
+		PID_Controller(&WheelD);
 	}
 }
 

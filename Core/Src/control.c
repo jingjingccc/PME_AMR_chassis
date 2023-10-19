@@ -225,8 +225,18 @@ void Hardware_Info_Init()
  * */
 void PID_Controller(PID_Control *Wheel_)
 {
+
 	Wheel_->CountNum = __HAL_TIM_GetCounter(&Wheel_->encoder_timer)* Wheel_->encoder_dir;
-	Wheel_->rps = (double)Wheel_->CountNum / ((double)4 * encoder_resolution * speed_reduction_ratio * control_period);
+
+	if(Wheel_ == WheelA)
+	{
+		Wheel_->rps = (double)Wheel_->CountNum / ((double)4 * encoder_resolution * 48 * control_period);
+	}
+	else
+	{
+		Wheel_->rps = (double)Wheel_->CountNum / ((double)4 * encoder_resolution * speed_reduction_ratio * control_period);
+	}
+
 	__HAL_TIM_SetCounter(&Wheel_->encoder_timer ,0);
 
 	if (i<600)
