@@ -77,7 +77,7 @@ void Control_Init()
 	Pid_Param_Init(&WheelD, M4_KP, M4_KI, M4_KD);
 
 	i = 0;
-	limit_integral = 0.6;
+	limit_integral = 1.0;
 	pwm_arr = M1_PWM_timer.Init.Period;
 
 	// PCLK1_freq, APB1 timer frequency
@@ -228,9 +228,9 @@ void PID_Controller(PID_Control *Wheel_)
 
 	Wheel_->CountNum = __HAL_TIM_GetCounter(&Wheel_->encoder_timer)* Wheel_->encoder_dir;
 
-	if(Wheel_ == WheelA)
+	if(Wheel_ == &WheelA)
 	{
-		Wheel_->rps = (double)Wheel_->CountNum / ((double)4 * encoder_resolution * 48 * control_period);
+		Wheel_->rps = (double)Wheel_->CountNum / ((double)4 * encoder_resolution * 3 * control_period);
 	}
 	else
 	{
@@ -239,11 +239,11 @@ void PID_Controller(PID_Control *Wheel_)
 
 	__HAL_TIM_SetCounter(&Wheel_->encoder_timer ,0);
 
-	if (i<600)
-	{
-		sssss[i] = Wheel_->rps;
-		i++;
-	}
+//	if (i<1000)
+//	{
+//		sssss[i] = Wheel_->rps;
+//		i++;
+//	}
 
 	Wheel_->err = Wheel_->goal - Wheel_->rps;
 	Wheel_->propotional = (double)Wheel_->err * Wheel_->Kp;
@@ -257,7 +257,7 @@ void PID_Controller(PID_Control *Wheel_)
 	Wheel_->duty = (Wheel_->duty > 1)? 1 : Wheel_->duty;
 	Wheel_->duty = (Wheel_->duty < -1)? -1 : Wheel_->duty;
 
-	Wheel_->duty = 1.0;
+//	Wheel_->duty = 1.0;
 
 #ifdef VNH5019
 	if(Wheel_->duty >= 0)
@@ -328,6 +328,23 @@ void Forward_Kinematics(double x, double y, double w)
 	WheelD.goal = omega_d / (2 * M_PI);
 }
 
+
+void Inverse_Kinematics(PID_Control *WheelA_, PID_Control *WheelB_, PID_Control *WheelC_, PID_Control *WheelD_)
+{
+	double omega_a = WheelA_->rps * (2 * M_PI) * (wheel_radius * radius_error_a);
+	double omega_b = WheelB_->rps * (2 * M_PI) * (wheel_radius * radius_error_b);
+	double omega_c = WheelC_->rps * (2 * M_PI) * (wheel_radius * radius_error_c);
+	double omega_d = WheelD_->rps * (2 * M_PI) * (wheel_radius * radius_error_d);
+
+	double Vx = (omega_d - omega_b) / 2;
+	double Vy = (omega_a - omega_c) / 2;
+	double Vw = (omega_a + omega_b + omega_c + omega_d) / (4 * chassis_radius * radius_error_chassis);
+
+	odom_vel[0] = Vx;
+	odom_vel[1] = Vy;
+	odom_vel[2] = Vw;
+	odom_store();
+}
 
 /**
  * @ brief set the input speed zero

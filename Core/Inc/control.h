@@ -68,7 +68,7 @@
 /*encoder and pwm timer/channel define*/
 #define M1_Encoder_timer htim2
 #define M1_Encoder_timerchannel TIM_CHANNEL_1 | TIM_CHANNEL_2
-#define M1_Encoder_dir 1
+#define M1_Encoder_dir -1
 #define M1_PWM_timer htim12
 #define M1_PWM_timerchannel TIM_CHANNEL_1
 
@@ -97,7 +97,7 @@ extern double control_period;
 
 /* Hardware Info */
 #define encoder_resolution 512
-#define speed_reduction_ratio 36*4
+#define speed_reduction_ratio 9
 
 #define wheel_radius 0.05075
 #define chassis_radius 0.3
@@ -115,20 +115,20 @@ extern double angularvelocity;
 /* PID gain param : only PI control*/
 #define robot1
 #ifdef robot1
-#define M1_KP 1.0
-#define M1_KI 0.0
+#define M1_KP 2.8
+#define M1_KI 70
 #define M1_KD 0.0
 
-#define M2_KP 0.215451943
-#define M2_KI 9.156965324
+#define M2_KP 13
+#define M2_KI 30
 #define M2_KD 0.0
 
-#define M3_KP 1.0
-#define M3_KI 0.0
+#define M3_KP 5.8
+#define M3_KI 30
 #define M3_KD 0.0
 
-#define M4_KP 0.438787
-#define M4_KI 9.904899
+#define M4_KP 6
+#define M4_KI 50
 #define M4_KD 0.0
 #endif
 
@@ -184,6 +184,7 @@ void Hardware_Info_Init();
 void Control_Timer_Init();
 void PID_Controller(PID_Control *Wheel_);
 void Forward_Kinematics(double x, double y, double w);
+void Inverse_Kinematics(PID_Control *WheelA_, PID_Control *WheelB_, PID_Control *WheelC_, PID_Control *WheelD_);
 void Stop_Chasis();
 
 #ifdef VNH5019

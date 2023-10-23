@@ -17,6 +17,10 @@ void Rosserial_Init(void);
 void Rosserial_Spin(void);
 bool Rosserial_Checkconfigstate(void);
 void Rosserial_GetHardware(void);
+void odom_store(void);
+void odom_publish(void);
+
+extern double odom_vel[3];
 
 #ifdef __cplusplus
 }

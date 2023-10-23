@@ -4,5 +4,6 @@ control.c:173:6:Motor_Driver_Init	1
 control.c:194:6:Control_Timer_Init	1
 control.c:211:6:Hardware_Info_Init	1
 control.c:226:6:PID_Controller	17
-control.c:308:6:Forward_Kinematics	1
-control.c:326:6:Stop_Chasis	1
+control.c:318:6:Forward_Kinematics	1
+control.c:332:6:Inverse_Kinematics	1
+control.c:353:6:Stop_Chasis	1

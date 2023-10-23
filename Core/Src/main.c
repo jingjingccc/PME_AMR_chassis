@@ -46,7 +46,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-int16_t a;
+int odom_count;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -103,7 +103,7 @@ int main(void)
   HAL_TIM_Base_Start_IT(&Encoder_Interrupt_timer);
   Control_Init();
   Rosserial_Init();
-
+  odom_count = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -117,6 +117,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+  	Rosserial_Spin();
   }
   /* USER CODE END 3 */
 }
@@ -184,24 +185,30 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	if(htim->Instance == Encoder_Interrupt_timer.Instance)
 	{
-//		a++;
+		odom_count++;
+		if(odom_count == 5)
+		{
+			odom_count = 0;
+			odom_publish();
+		}
 //		WheelA.goal = 0.0;
 //		WheelB.goal = 0.0;
 //		WheelC.goal = 0.0;
 //		WheelD.goal = 0.0;
 
-//		Rosserial_Spin();
-//		if (Rosserial_Checkconfigstate() == false)
-//		{
-//			linearvelocity_x = 0.0;
-//			linearvelocity_y = 0.0;
-//			angularvelocity = 0.0;
-//		}
-//		Forward_Kinematics(linearvelocity_x, linearvelocity_y, angularvelocity);
+		Rosserial_Spin();
+		if (Rosserial_Checkconfigstate() == false)
+		{
+			linearvelocity_x = 0.0;
+			linearvelocity_y = 0.0;
+			angularvelocity = 0.0;
+		}
+		Forward_Kinematics(linearvelocity_x, linearvelocity_y, angularvelocity);
 		PID_Controller(&WheelA);
 		PID_Controller(&WheelB);
 		PID_Controller(&WheelC);
 		PID_Controller(&WheelD);
+		Inverse_Kinematics(&WheelA, &WheelB, &WheelC, &WheelD);
 	}
 }
 
