@@ -43,7 +43,7 @@ PID_Control WheelC = {0};
 PID_Control WheelD = {0};
 
 int i;
-double sssss[1000];
+double sssss[1000] = {0};
 
 /**
  * @ brief Include all the initial function
@@ -83,11 +83,10 @@ void Control_Init()
 	// PCLK1_freq, APB1 timer frequency
 	int32_t PCLK1_freq = HAL_RCC_GetPCLK1Freq();
 
-	/******************* This part is not sure.********************/
-	/*if((RCC->CFGR & RCC_D2CFGR_D2PPRE1) != 0)
+	if((RCC->CFGR & RCC_D2CFGR_D2PPRE1) != 0)
 	{
 		PCLK1_freq *=2;
-	}*/
+	}
 
 	int32_t timer_interrupt_freq = (double)PCLK1_freq / (Encoder_Interrupt_timer.Init.Prescaler + 1) / (Encoder_Interrupt_timer.Init.Period + 1);
 	control_period = (double)(1 / (double)timer_interrupt_freq);
@@ -214,7 +213,7 @@ void Hardware_Info_Init()
 	radius_error_b = 1.0;
 	radius_error_c = 1.0;
 	radius_error_d = 1.0;
-	radius_error_chassis = 1.0;
+	radius_error_chassis = 0.8;
 }
 
 
@@ -230,7 +229,7 @@ void PID_Controller(PID_Control *Wheel_)
 
 	if(Wheel_ == &WheelA)
 	{
-		Wheel_->rps = (double)Wheel_->CountNum / ((double)4 * encoder_resolution * 3 * control_period);
+		Wheel_->rps = (double)Wheel_->CountNum / ((double)4 * encoder_resolution * (double)(12 / 1.125) * control_period);
 	}
 	else
 	{
@@ -239,7 +238,7 @@ void PID_Controller(PID_Control *Wheel_)
 
 	__HAL_TIM_SetCounter(&Wheel_->encoder_timer ,0);
 
-//	if (i<1000)
+//	if (i < 700)
 //	{
 //		sssss[i] = Wheel_->rps;
 //		i++;
@@ -251,7 +250,6 @@ void PID_Controller(PID_Control *Wheel_)
 	Wheel_->integral = (Wheel_->integral > limit_integral)? limit_integral : Wheel_->integral;
 	Wheel_->integral = (Wheel_->integral < (double)(-1) * limit_integral)? (double)(-1) * limit_integral : Wheel_->integral;
 	Wheel_->differential = (double) Wheel_->Kd * (-1) * (Wheel_->rps - Wheel_->rps_before) / control_period;
-
 
 	Wheel_->duty = Wheel_->propotional + Wheel_->integral + Wheel_->differential;
 	Wheel_->duty = (Wheel_->duty > 1)? 1 : Wheel_->duty;

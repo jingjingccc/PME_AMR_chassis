@@ -1,9 +1,9 @@
 ../Core/Src/control.c:52:6:Control_Init	184	static
-../Core/Src/control.c:124:6:Pid_Param_Init	40	static
-../Core/Src/control.c:173:6:Motor_Driver_Init	24	static
-../Core/Src/control.c:194:6:Control_Timer_Init	8	static
-../Core/Src/control.c:211:6:Hardware_Info_Init	4	static
-../Core/Src/control.c:226:6:PID_Controller	16	static
-../Core/Src/control.c:318:6:Forward_Kinematics	64	static
-../Core/Src/control.c:332:6:Inverse_Kinematics	80	static
-../Core/Src/control.c:353:6:Stop_Chasis	4	static
+../Core/Src/control.c:123:6:Pid_Param_Init	40	static
+../Core/Src/control.c:172:6:Motor_Driver_Init	24	static
+../Core/Src/control.c:193:6:Control_Timer_Init	8	static
+../Core/Src/control.c:210:6:Hardware_Info_Init	4	static
+../Core/Src/control.c:225:6:PID_Controller	16	static
+../Core/Src/control.c:316:6:Forward_Kinematics	64	static
+../Core/Src/control.c:330:6:Inverse_Kinematics	80	static
+../Core/Src/control.c:351:6:Stop_Chasis	4	static

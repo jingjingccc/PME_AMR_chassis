@@ -73,7 +73,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+   HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -104,12 +104,16 @@ int main(void)
   Control_Init();
   Rosserial_Init();
   odom_count = 0;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+//  	HAL_GPIO_WritePin(WheelD.DIR_pin_type, WheelD.DIR_pin_Num, GPIO_PIN_SET);
+//    	__HAL_TIM_SET_COMPARE(&(WheelD.pwm_timer), WheelD.pwm_timer_channel, 1500);
+
 //  	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_3, GPIO_PIN_SET);
 //  	__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_1, 3000);
 //  	a = __HAL_TIM_GetCounter(&htim2);
@@ -117,7 +121,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  	Rosserial_Spin();
+//  	Rosserial_Spin();
   }
   /* USER CODE END 3 */
 }
@@ -186,7 +190,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	if(htim->Instance == Encoder_Interrupt_timer.Instance)
 	{
 		odom_count++;
-		if(odom_count == 5)
+		if(odom_count == 10)
 		{
 			odom_count = 0;
 			odom_publish();
@@ -197,12 +201,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //		WheelD.goal = 0.0;
 
 		Rosserial_Spin();
-		if (Rosserial_Checkconfigstate() == false)
-		{
-			linearvelocity_x = 0.0;
-			linearvelocity_y = 0.0;
-			angularvelocity = 0.0;
-		}
+//		if (Rosserial_Checkconfigstate() == false)
+//		{
+//			linearvelocity_x = 0.0;
+//			linearvelocity_y = 0.0;
+//			angularvelocity = 0.0;
+//		}
 		Forward_Kinematics(linearvelocity_x, linearvelocity_y, angularvelocity);
 		PID_Controller(&WheelA);
 		PID_Controller(&WheelB);
