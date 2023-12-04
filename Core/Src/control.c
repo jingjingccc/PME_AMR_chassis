@@ -209,11 +209,11 @@ void Control_Timer_Init()
  * */
 void Hardware_Info_Init()
 {
-	radius_error_a = 1.0;
-	radius_error_b = 1.0;
-	radius_error_c = 1.0;
-	radius_error_d = 1.0;
-	radius_error_chassis = 0.8;
+	radius_error_a = 0.69;
+	radius_error_b = 0.565;
+	radius_error_c = 0.69;
+	radius_error_d = 0.56;
+	radius_error_chassis = 0.7;
 }
 
 
